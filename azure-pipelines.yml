@@ -1,8 +1,5 @@
 # Python package
 # Create and test a Python package on multiple Python versions.
-# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
-
 trigger:
 - main
 
@@ -11,8 +8,6 @@ pool:
 
 strategy:
   matrix:
-    Python38:
-      python.version: '3.8'
     Python39:
       python.version: '3.9'
     Python310:
@@ -27,11 +22,11 @@ steps:
   displayName: 'Use Python $(python.version)'
 
 - script: |
+    # 1. Aggiorna pip e installa TUTTE le dipendenze necessarie
     python -m pip install --upgrade pip
-   # pip install -r requirements.txt
-  displayName: 'Install dependencies'
-
-- script: |
-    pip install pytest pytest-azurepipelines
+    pip install requests pytest pytest-azurepipelines
+    
+    # 2. Configura l'ambiente ed esegui i test nello stesso blocco
+    export PYTHONPATH=.
     pytest
-  displayName: 'pytest'
+  displayName: 'Installa dipendenze ed esegui pytest'
