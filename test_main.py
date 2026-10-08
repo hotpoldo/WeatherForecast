@@ -1,4 +1,4 @@
-from app import get_weather_data
+from main import get_weather_data
 
 def test_weather_api_status():
     
